@@ -1,4 +1,42 @@
 <html>
-	<head>CSV to DB</head>
-	<body>This is a test</body>
+	<head>
+		<title>Expense App</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+		<script src="javascripts/lib/papaparse.min.js"></script>
+		<script src="javascripts/app.js"></script>
+		<script src="javascripts/controllers.js"></script>
+		<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+	</head>
+	<body ng-app="expenseApp" ng-controller="expenseController">
+		<div>
+			<input type="file" id="file" name="file"/>
+			<input type="button" ng-click="submitFile()" value="Submit"/><br/>
+			{{message}}
+		</div>
+		<br/>
+		<table ng-show="expenseList.length">
+			<thead>
+			 	<tr>
+			 		<th>Date</th>
+			 		<th>Category</th>
+			 		<th>Employee Name</th>
+			 		<th>Expense Description</th>
+			 		<th>Pre-tax Amount</th>
+			 		<th>Tax Name</th>
+			 		<th>Tax Amount</th>
+			 	</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="expense in expenseList">
+					<td>{{expense.date}}</td>
+					<td>{{expense.category}}</td>
+					<td>{{expense.employeeName}}</td>
+					<td>{{expense.expenseDesc}}</td>
+					<td>{{expense.preTaxAmount}}</td>
+					<td>{{expense.taxName}}</td>
+					<td>{{expense.taxAmount}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
 </html>
