@@ -3,6 +3,7 @@
 		<title>Expense App</title>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
 		<script src="javascripts/lib/papaparse.min.js"></script>
+		<script src="javascripts/lib/moment.js"></script>
 		<script src="javascripts/app.js"></script>
 		<script src="javascripts/controllers.js"></script>
 		<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
@@ -20,6 +21,7 @@
 			 		<th>Date</th>
 			 		<th>Category</th>
 			 		<th>Employee Name</th>
+			 		<th>Employee Address</th>
 			 		<th>Expense Description</th>
 			 		<th>Pre-tax Amount</th>
 			 		<th>Tax Name</th>
@@ -31,6 +33,7 @@
 					<td>{{expense.date}}</td>
 					<td>{{expense.category}}</td>
 					<td>{{expense.employeeName}}</td>
+					<td>{{expense.employeeAddress}}</td>
 					<td>{{expense.expenseDesc}}</td>
 					<td>{{expense.preTaxAmount}}</td>
 					<td>{{expense.taxName}}</td>
