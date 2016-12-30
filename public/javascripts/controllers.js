@@ -4,6 +4,7 @@ app.controller('expenseController', function($scope, $http){
 
 	$scope.expenseList = [];
 	$scope.message = "Please select and submit a comma-delimited text file to add to database.";
+	$scope.monthlyExpenseList = [];
 
 	updateExpenses(); //Get whatever we have from DB to be displayed by default
 
@@ -61,11 +62,14 @@ app.controller('expenseController', function($scope, $http){
 	}
 
 	function updateExpenses() { //Retrieves expense from server (DB) and updates the scope expenseList
-		getExpensesFromServer(function(expenses) {				
-			for(var i = 0; i < expenses.length; i++) {
-				expenses[i].date = expenses[i].date.substring(0, 10); //So that we have proper date for displaying
+		getExpensesFromServer(function(expenses) {			
+			for(var i = 0; i < expenses.length; i++) { //do a little formatting
+				expenses[i].date = moment(expenses[i].date).format('YYYY-MM-DD');
+				expenses[i].preTaxAmount = parseFloat(expenses[i].preTaxAmount).toFixed(2); //2 decimal points
+				expenses[i].taxAmount = parseFloat(expenses[i].taxAmount).toFixed(2); //2 decimal points	 
 			}
 			$scope.expenseList = expenses;
+			generateMonthlyExpenses();
 		});
 	}
 
@@ -78,5 +82,28 @@ app.controller('expenseController', function($scope, $http){
 			.error(function(data){
 				callback(data.rows);
 		});
+	}
+
+	function generateMonthlyExpenses() {
+		var expenses = $scope.expenseList;
+		var monthExpenseList = []
+		for(var i = 0; i < expenses.length; i++) {
+			var monthYearDate = '' + (moment(expenses[i].date).year() +''+ moment(expenses[i].date).month()); //This will be our key for our array so we have expenses per month per year
+			if(monthExpenseList[monthYearDate] != undefined) { //if we already have the month year combo, just add to the totals
+				monthExpenseList[monthYearDate].preTaxTotal = parseFloat(monthExpenseList[monthYearDate].preTaxTotal) + parseFloat(expenses[i].preTaxAmount);
+				monthExpenseList[monthYearDate].taxTotal = parseFloat(monthExpenseList[monthYearDate].taxTotal) + parseFloat(expenses[i].taxAmount);
+				monthExpenseList[monthYearDate].total = parseFloat(monthExpenseList[monthYearDate].total) + (parseFloat(expenses[i].preTaxAmount)+ parseFloat(expenses[i].taxAmount));
+			}
+			else { //otherwise create an entry for that month year combo
+				monthExpenseList[monthYearDate] = {monthYear: (moment(expenses[i].date).format("MMM") + ' ' +moment(expenses[i].date).year()), preTaxTotal: parseFloat(expenses[i].preTaxAmount), taxTotal: parseFloat(expenses[i].taxAmount), total: (parseFloat(expenses[i].preTaxAmount)+parseFloat(expenses[i].taxAmount))}
+			}
+		}
+
+		for(var i in monthExpenseList) { //Add Rows to the scope monthlyExpenseList to be displayed and format to 2 decimal points
+			monthExpenseList[i].preTaxTotal = monthExpenseList[i].preTaxTotal.toFixed(2);
+			monthExpenseList[i].taxTotal = monthExpenseList[i].taxTotal.toFixed(2);
+			monthExpenseList[i].total = monthExpenseList[i].total.toFixed(2); 
+			$scope.monthlyExpenseList.push(monthExpenseList[i]);
+		}
 	}
 });
