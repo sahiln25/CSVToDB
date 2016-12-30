@@ -9,12 +9,14 @@ var expense = require('./routes/expense');
 
 var app = express();
 
+var config = require('./config');
+
 //Create DB connection
 var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'abc123',
-  database: 'wave'
+  host: config.mysqlDB.hostName,
+  user: config.mysqlDB.username,
+  password: config.mysqlDB.password,
+  database: config.mysqlDB.database
 })
 
 connection.connect(function(err) {
