@@ -37,3 +37,7 @@ node ./bin/www
 ```
 
 An output saying "You are connected..." should appear in your console meaning that the database connection was successful. From here you, can go to localhost:3000 to start the app and upload your CSV file to calculate your monthly expenses.
+
+
+![Alt text](/screenshots/screenshot1.png?raw=true)
+![Alt text](/screenshots/screenshot2.png?raw=true)
