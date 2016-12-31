@@ -12,6 +12,7 @@ A database for the application must be created in the MySQL database and the cre
 
 You should create a table that looks like the one below in your database (this can be done manually or by executing the SQL script 'expensesDB.sql' found in the root directory of this challenge. It will import the database and expense table with all the columns as specified below):
 
+```
 Name of Table: expenses
 Columns:
 +-----------------+---------------+------+-----+---------+----------------+
@@ -27,6 +28,7 @@ Columns:
 | taxName         | varchar(45)   | YES  |     | NULL    |                |
 | taxAmount       | decimal(45,2) | NO   |     | NULL    |                |
 +-----------------+---------------+------+-----+---------+----------------+
+```
 
 Once the database is running, you will need to run the Node server. If Node JS has been install, you can go the root directory of the application in your terminal and use the following command to run the server:
 
